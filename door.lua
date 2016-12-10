@@ -9,7 +9,7 @@ function Door.new()
   self.width = 50
   self.height = self.doorHeight
   self.x = 375
-  self.y = self.doorHeight / 2 + 12.5
+  self.y = 25 - self.height + 1
   self.color = {224, 108, 117}
   self.isOpen = false
 

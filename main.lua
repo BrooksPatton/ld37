@@ -4,6 +4,9 @@ function love.load()
   Paddle = require('paddle')
   Ball = require('ball')
   Door = require('door')
+  Welcome = require('welcome')
+
+  welcomeScreen = Welcome.new()
 
   door = Door.new()
   board = Board.new(door)
@@ -15,7 +18,7 @@ end
 
 function love.draw()
   if state == 'starting' then
-    -- show starting window
+    welcomeScreen:draw()
   elseif state == 'playing' then
     board:draw(ball.ballsLeft)
 
@@ -50,10 +53,6 @@ function love.update(dt)
 
   if board.gameOver then
     state = 'gameOver'
-  end
-
-  if state == 'starting' then
-    state = 'playing'
   end
 
   ball:move(dt)
