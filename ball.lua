@@ -1,20 +1,27 @@
 local Ball = {}
 Ball.__index = Ball
 
-function Ball.new(paddle)
+function Ball.new(paddle, board)
   local self = setmetatable({}, Ball)
 
   self.paddle = paddle
+  self.board = board
+
   self.width = 10
   self.height = self.width
+  self.color = {255, 255, 255}
+  self.ballsLeft = 3
+
+  self:resetBall()
+  return self
+end
+
+function Ball:resetBall()
   self.x = 400 - self.width / 2
   self.y = 500
-  self.color = {255, 255, 255}
   self.moving = false
   self.speedX = 250
   self.speedY = -250
-
-  return self
 end
 
 function Ball:draw()
@@ -23,21 +30,27 @@ function Ball:draw()
 end
 
 function Ball:move(dt)
-  if self:collideWithLeft() then
-    self.x = board.x
-    self:reverseX()
-  elseif self:collideWithRight() then
-    self.x = board.width + board.x - self.width
-    self:reverseX()
-  elseif self:collideWithPaddle() then
-    self.y = self.paddle.y - self.height
-    self:reverseY()
-  elseif self:collideWithTop() then
-    self.speedY = self.speedY * -1
-  end
+  if self.moving then
+    if self:collideWithLeft() then
+      self.x = self.board.x
+      self:reverseX()
+    elseif self:collideWithRight() then
+      self.x = self.board.width + self.board.x - self.width
+      self:reverseX()
+    elseif self:collideWithPaddle() then
+      self.y = self.paddle.y - self.height
+      self:reverseY()
+    elseif self:collideWithTop() then
+      self.y = self.board.y
+      self.speedY = self.speedY * -1
+    elseif self:collideWithBottom() then
+      self:loseLife()
+      self:resetBall()
+    end
 
-  self.x = self.x + self.speedX * dt
-  self.y = self.y + self.speedY * dt
+    self.x = self.x + self.speedX * dt
+    self.y = self.y + self.speedY * dt
+  end
 end
 
 function Ball:collideWithPaddle()
@@ -45,15 +58,15 @@ function Ball:collideWithPaddle()
 end
 
 function Ball:collideWithLeft()
-  return self.x <= board.x
+  return self.x <= self.board.x
 end
 
 function Ball:collideWithRight()
-  return self.x + self.width >= board.width + board.x
+  return self.x + self.width >= self.board.width + self.board.x
 end
 
 function Ball:collideWithTop()
-  return self.y <= board.y
+  return self.y <= self.board.y
 end
 
 function Ball:reverseX()
@@ -62,6 +75,18 @@ end
 
 function Ball:reverseY()
   self.speedY = self.speedY * -1
+end
+
+function Ball:collideWithBottom()
+  return self.y + self.height >= self.board.height + self.board.y
+end
+
+function Ball:start()
+  self.moving = true
+end
+
+function Ball:loseLife()
+  self.ballsLeft = self.ballsLeft - 1
 end
 
 return Ball

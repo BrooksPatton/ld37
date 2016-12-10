@@ -1,16 +1,16 @@
 function love.load()
-  board = require('board')
+  Board = require('board')
   door = require('door')
   Paddle = require('paddle')
   Ball = require('ball')
 
+  board = Board.new()
   playerPaddle = Paddle.new()
-  ball = Ball.new(playerPaddle)
+  ball = Ball.new(playerPaddle, board)
 end
 
 function love.draw()
-  love.graphics.setColor(board.color[1], board.color[2], board.color[3])
-  love.graphics.rectangle('line', board.x, board.y, board.width, board.height)
+  board:draw(ball.ballsLeft)
 
   love.graphics.setColor(door.color[1], door.color[2], door.color[3])
   love.graphics.rectangle('fill', door.x, door.y, door.width, door.height)
@@ -25,6 +25,8 @@ function love.keypressed(key, scancode, isrepeat)
     playerPaddle:setMoving('left')
   elseif scancode == 'd' then
     playerPaddle:setMoving('right')
+  elseif scancode == 'space' then
+    ball:start()
   end
 end
 
