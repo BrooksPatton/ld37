@@ -1,6 +1,9 @@
 function love.load()
   board = require('board')
   door = require('door')
+  Paddle = require('paddle')
+
+  playerPaddle = Paddle.new()
 end
 
 function love.draw()
@@ -9,4 +12,27 @@ function love.draw()
 
   love.graphics.setColor(door.color[1], door.color[2], door.color[3])
   love.graphics.rectangle('fill', door.x, door.y, door.width, door.height)
+
+  playerPaddle:draw()
+end
+
+function love.keypressed(key, scancode, isrepeat)
+  -- We want the scancode here as it is the physical key pressed and ignores whatever strange keyboard layout the user has
+  if scancode == 'a' then
+    playerPaddle:setMoving('left')
+  elseif scancode == 'd' then
+    playerPaddle:setMoving('right')
+  end
+end
+
+function love.keyreleased(key)
+  playerPaddle:setMoving(nil)
+end
+
+function love.update(dt)
+  if playerPaddle.movingDirection and playerPaddle.movingDirection == 'right' then
+    playerPaddle:moveRight(dt)
+  elseif playerPaddle.movingDirection and playerPaddle.movingDirection == 'left' then
+    playerPaddle:moveLeft(dt)
+  end
 end
