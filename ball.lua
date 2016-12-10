@@ -40,6 +40,9 @@ function Ball:move(dt)
     elseif self:collideWithPaddle() then
       self.y = self.paddle.y - self.height
       self:reverseY()
+    elseif self.board:collideWithDoor(self) then
+      self.y = self.board.door.y + self.board.door.height + self.board.y
+      self:reverseY()
     elseif self:collideWithTop() then
       self.y = self.board.y
       self.speedY = self.speedY * -1

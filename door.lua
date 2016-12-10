@@ -1,12 +1,29 @@
-local doorHeight = 12.5
+local Door = {}
+Door.__index = Door
 
-local door = {
-  width = 50,
-  height = doorHeight,
-  x = 375,
-  y = doorHeight / 2 + 12.5,
-  color = {224, 108, 117},
-  state = 'closed'
-}
+function Door.new()
+  local self = setmetatable({}, Door)
 
-return door
+  self.doorHeight = 12.5
+
+  self.width = 50
+  self.height = self.doorHeight
+  self.x = 375
+  self.y = self.doorHeight / 2 + 12.5
+  self.color = {224, 108, 117}
+  self.isOpen = false
+
+  return self
+end
+
+function Door:draw()
+  love.graphics.setColor(door.color[1], door.color[2], door.color[3])
+  love.graphics.rectangle('fill', door.x, door.y, door.width, door.height)
+end
+
+function Door:open()
+  self.isOpen = true
+  self.color = {0, 0, 0}
+end
+
+return Door

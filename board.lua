@@ -1,8 +1,10 @@
 local Board = {}
 Board.__index = Board
 
-function Board.new()
+function Board.new(door)
   local self = setmetatable({}, Board)
+
+  self.door = door
 
   self.y = 25
   self.x = 25
@@ -24,6 +26,19 @@ function Board:draw(ballsLeft)
   love.graphics.setFont(self.font)
   love.graphics.setColor(self.fontColor[1], self.fontColor[2], self.fontColor[3])
   love.graphics.print('Balls left: ' .. ballsLeft, self.x, (self.y / 2) - (self.fontSize / 2))
+
+  self.door:draw()
+end
+
+function Board:collideWithDoor(ball)
+  if ball.y <= self.door.y + self.door.height + self.y and ball.x > self.door.x and ball.x + ball.width < self.door.x + self.door.width then
+    if self.door.isOpen then
+      print('yay you win!')
+    else
+      self.door:open()
+      return true
+    end
+  end
 end
 
 return Board

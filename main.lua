@@ -3,17 +3,16 @@ function love.load()
   door = require('door')
   Paddle = require('paddle')
   Ball = require('ball')
+  Door = require('door')
 
-  board = Board.new()
+  door = Door.new()
+  board = Board.new(door)
   playerPaddle = Paddle.new()
   ball = Ball.new(playerPaddle, board)
 end
 
 function love.draw()
   board:draw(ball.ballsLeft)
-
-  love.graphics.setColor(door.color[1], door.color[2], door.color[3])
-  love.graphics.rectangle('fill', door.x, door.y, door.width, door.height)
 
   playerPaddle:draw()
   ball:draw()
