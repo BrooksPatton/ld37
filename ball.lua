@@ -53,6 +53,8 @@ function Ball:move(dt)
     elseif self:collideWithBottom() then
       self:loseLife()
       self:resetBall()
+    elseif self:collideWithBrick() then
+      self:reverseY()
     end
 
     self.x = self.x + self.speedX * dt
@@ -106,6 +108,17 @@ end
 
 function Ball:resetNumberOfBalls()
   self.ballsLeft = 3
+end
+
+function Ball:collideWithBrick()
+  for i,brick in ipairs(self.board.bricks) do
+    if self.x > brick.x and self.x + self.width < brick.x + brick.width and self.y < brick.y + brick.height and self.y + self.height > brick.y then
+      self.board:removeBrick(i)
+      return true
+    end
+  end
+
+  return false
 end
 
 return Ball

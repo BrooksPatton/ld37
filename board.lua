@@ -1,7 +1,7 @@
 local Board = {}
 Board.__index = Board
 
-function Board.new(door)
+function Board.new(door, Brick)
   local self = setmetatable({}, Board)
 
   self.door = door
@@ -15,6 +15,8 @@ function Board.new(door)
   self.fontSize = 24
   self.font = love.graphics.newFont(self.fontSize)
   self.fontColor = {0, 156, 220}
+
+  self.bricks = self:generateBricks()
 
   self:startGame()
 
@@ -30,6 +32,10 @@ function Board:draw(ballsLeft)
   love.graphics.print('Balls left: ' .. ballsLeft, self.x, (self.y / 2) - (self.fontSize / 2))
 
   self.door:draw()
+
+  for i,brick in ipairs(self.bricks) do
+    brick:draw()
+  end
 end
 
 function Board:collideWithDoor(ball)
@@ -50,7 +56,31 @@ end
 
 function Board:startGame()
   self.gameOver = false
-  self.door:reset()
+  self:removeBricks()
+  self.bricks = self:generateBricks()
+end
+
+function Board:generateBricks()
+  local bricks = {}
+  local x = self.x
+  local y = self.y *2
+  local brick
+
+  for i=1,12 do
+    brick = Brick.new(x, y)
+    table.insert(bricks, brick)
+    x = x + brick.width + 1
+  end
+
+  return bricks
+end
+
+function Board:removeBrick(i)
+  table.remove(self.bricks, i)
+end
+
+function Board:removeBricks()
+  self.bricks = {}
 end
 
 return Board

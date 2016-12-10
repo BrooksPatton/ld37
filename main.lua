@@ -8,11 +8,12 @@ function love.load()
   Door = require('door')
   Welcome = require('welcome')
   GameOver = require('game-over')
+  Brick = require('brick')
 
   welcomeScreen = Welcome.new()
 
   door = Door.new()
-  board = Board.new(door)
+  board = Board.new(door, Brick)
   playerPaddle = Paddle.new()
   ball = Ball.new(playerPaddle, board)
 
@@ -74,5 +75,6 @@ function resetGame()
   ball:resetNumberOfBalls()
   ball:resetBall()
   board:startGame()
+  door:reset()
   state = 'playing'
 end
