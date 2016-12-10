@@ -7,9 +7,9 @@ function Item.new(i, brick)
   self.brickId = brick.id
 
   self.possibleItems = {
-    {name = 'paddle size up', value = 10, logo = 'P+'},
-    {name = 'ball speed up', value = 25, logo = 'B+'},
-    {name = 'paddle speed up', value = 50, logo = 'PS+'}
+    {name = 'paddle size up', value = 2, logo = 'P+'},
+    {name = 'ball speed up', value = 0.01, logo = 'B+'},
+    {name = 'paddle speed up', value = 10, logo = 'PS+'}
   }
 
   self.item = self.possibleItems[i]
@@ -19,7 +19,8 @@ function Item.new(i, brick)
   self.speed = 100
   self.y = brick.y + brick.height / 2 - self.font:getHeight() / 2
   self.x = brick.x
-  self.brickWidth = brick.width
+  self.width = brick.width
+  self.height = self.font:getHeight()
 
   return self
 end
@@ -32,11 +33,18 @@ function Item:draw()
   end
 
   love.graphics.setFont(self.font)
-  love.graphics.printf(self.item.logo, self.x, self.y, self.brickWidth, 'center')
+  love.graphics.printf(self.item.logo, self.x, self.y, self.width, 'center')
 end
 
 function Item:startFalling()
   self.falling = true
+end
+
+function Item:collideWithPaddle(paddle)
+  return (self.x > paddle.x and self.x < paddle.x + paddle.width and self.y + self.height > paddle.y and self.y + self.height < paddle.y + paddle.height)
+        or (self.x > paddle.x and self.x < paddle.x + paddle.width and self.y > paddle.y and self.y < paddle.y + paddle.height)
+        or (self.x + self.width > paddle.x and self.x + self.width < paddle.x + paddle.width and self.y + self.height > paddle.y and self.y + self.height < paddle.y + paddle.height)
+        or (self.x + self.width > paddle.x and self.x + self.width < paddle.x + paddle.width and self.y > paddle.y and self.y < paddle.y + paddle.height)
 end
 
 return Item

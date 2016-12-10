@@ -10,7 +10,6 @@ function love.load()
   GameOver = require('game-over')
   Brick = require('brick')
   Item = require('item')
-  brickId = 0
 
   welcomeScreen = Welcome.new()
 
@@ -86,6 +85,10 @@ function dropItems(items, dt)
   for i,item in ipairs(items) do
     if item.falling then
       item.y = item.y + item.speed * dt
+
+      if item:collideWithPaddle(playerPaddle) then
+        playerPaddle:applyItem(item)
+      end
     end
   end
 end

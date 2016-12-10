@@ -6,13 +6,19 @@ function Paddle.new()
 
   self.x = 375
   self.y = 550
-  self.width = 50
   self.height = 15
   self.color = {171, 173, 156}
   self.movingDirection = nil
-  self.speed = 250
+  self.ballSpeedUp = 1
+
+  self:resetPaddle()
 
   return self
+end
+
+function Paddle:resetPaddle()
+  self.width = 50
+  self.speed = 250
 end
 
 function Paddle:draw()
@@ -38,6 +44,20 @@ function Paddle:moveLeft(dt)
   else
     self.x = self.x - self.speed * dt
   end
+end
+
+function Paddle:applyItem(item)
+  if item.item.name == 'paddle size up' then
+    self.width = self.width + item.item.value
+  elseif item.item.name == 'paddle speed up' then
+    self.speed = self.speed + item.item.value
+  elseif item.item.name == 'ball speed up' then
+    self.ballSpeedUp = self.ballSpeedUp + item.item.value
+  end
+end
+
+function Paddle:resetBallSpeedUp()
+  self.ballSpeedUp = 1
 end
 
 return Paddle

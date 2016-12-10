@@ -141,4 +141,12 @@ function Board:concatTables(t1, t2)
   return t2
 end
 
+function Board:removeFallingItems()
+  for i,item in ipairs(self.items) do
+    if item.falling then
+      table.remove(self.items, i)
+    end
+  end
+end
+
 return Board

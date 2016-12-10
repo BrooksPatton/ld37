@@ -24,6 +24,9 @@ function Ball:resetBall()
   self.moving = false
   self.speedX = 250
   self.speedY = -250
+  self.paddle:resetBallSpeedUp()
+  self.paddle:resetPaddle()
+  self.board:removeFallingItems()
 end
 
 function Ball:draw()
@@ -59,8 +62,11 @@ function Ball:move(dt)
       self:reverseY()
     end
 
-    self.x = self.x + self.speedX * dt
-    self.y = self.y + self.speedY * dt
+    local speedboostX = self.speedX * self.paddle.ballSpeedUp
+    local speedboostY = self.speedY * self.paddle.ballSpeedUp
+
+    self.x = self.x + speedboostX * dt
+    self.y = self.y + speedboostY * dt
   end
 end
 
