@@ -2,8 +2,10 @@ function love.load()
   board = require('board')
   door = require('door')
   Paddle = require('paddle')
+  Ball = require('ball')
 
   playerPaddle = Paddle.new()
+  ball = Ball.new()
 end
 
 function love.draw()
@@ -14,6 +16,7 @@ function love.draw()
   love.graphics.rectangle('fill', door.x, door.y, door.width, door.height)
 
   playerPaddle:draw()
+  ball:draw()
 end
 
 function love.keypressed(key, scancode, isrepeat)
@@ -35,4 +38,6 @@ function love.update(dt)
   elseif playerPaddle.movingDirection and playerPaddle.movingDirection == 'left' then
     playerPaddle:moveLeft(dt)
   end
+
+  ball:move(dt)
 end

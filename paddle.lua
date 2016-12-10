@@ -15,16 +15,16 @@ function Paddle.new()
   return self
 end
 
-function Paddle.draw(self)
+function Paddle:draw()
   love.graphics.setColor(self.color[1], self.color[2], self.color[3])
   love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
 end
 
-function Paddle.setMoving(self, direction)
+function Paddle:setMoving(direction)
   self.movingDirection = direction
 end
 
-function Paddle.moveRight(self, dt)
+function Paddle:moveRight(dt)
   if self.x + 50 >= 775 then
     self.x = 725
   else
@@ -32,7 +32,7 @@ function Paddle.moveRight(self, dt)
   end
 end
 
-function Paddle.moveLeft(self, dt)
+function Paddle:moveLeft(dt)
   if self.x <= 25 then
     self.x = 25
   else
