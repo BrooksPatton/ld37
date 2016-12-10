@@ -64,7 +64,19 @@ function Board:generateBricks()
   local bricks = {}
   local x = self.x
   local y = self.y *2
+
+  for i=1,5 do
+    bricks = self:concatTables(self:addRowOfBricks(x, y), bricks)
+    x = self.x
+    y = y + bricks[1].height + 1
+  end
+
+  return bricks
+end
+
+function Board:addRowOfBricks(x, y)
   local brick
+  local bricks = {}
 
   for i=1,12 do
     brick = Brick.new(x, y)
@@ -75,12 +87,21 @@ function Board:generateBricks()
   return bricks
 end
 
+
 function Board:removeBrick(i)
   table.remove(self.bricks, i)
 end
 
 function Board:removeBricks()
   self.bricks = {}
+end
+
+function Board:concatTables(t1, t2)
+  for i,v in ipairs(t1) do
+    table.insert(t2, v)
+  end
+
+  return t2
 end
 
 return Board
