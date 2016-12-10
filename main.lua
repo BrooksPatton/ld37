@@ -1,3 +1,5 @@
+require('lib/lovedebug')
+
 function love.load()
   Board = require('board')
   door = require('door')
@@ -5,6 +7,7 @@ function love.load()
   Ball = require('ball')
   Door = require('door')
   Welcome = require('welcome')
+  GameOver = require('game-over')
 
   welcomeScreen = Welcome.new()
 
@@ -12,6 +15,8 @@ function love.load()
   board = Board.new(door)
   playerPaddle = Paddle.new()
   ball = Ball.new(playerPaddle, board)
+
+  gameOverScreen = GameOver.new()
 
   state = 'starting'
 end
@@ -25,7 +30,7 @@ function love.draw()
     playerPaddle:draw()
     ball:draw()
   elseif state == 'gameOver' then
-    -- show game over window
+    gameOverScreen:draw()
   end
 end
 
@@ -41,6 +46,8 @@ function love.keypressed(key, scancode, isrepeat)
     elseif scancode == 'space' then
       ball:start()
     end
+  elseif state == 'gameOver' then
+    resetGame()
   end
 end
 
@@ -56,8 +63,16 @@ function love.update(dt)
   end
 
   if board.gameOver then
+    gameOverScreen:updateTitle(ball)
     state = 'gameOver'
   end
 
   ball:move(dt)
+end
+
+function resetGame()
+  ball:resetNumberOfBalls()
+  ball:resetBall()
+  board:startGame()
+  state = 'playing'
 end

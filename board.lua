@@ -11,11 +11,12 @@ function Board.new(door)
   self.width = 750
   self.height = 550
   self.color = {241, 241, 241}
-  self.gameOver = false
 
   self.fontSize = 24
   self.font = love.graphics.newFont(self.fontSize)
   self.fontColor = {0, 156, 220}
+
+  self:startGame()
 
   return self
 end
@@ -45,6 +46,11 @@ end
 
 function Board:endGame()
   self.gameOver = true
+end
+
+function Board:startGame()
+  self.gameOver = false
+  self.door:reset()
 end
 
 return Board

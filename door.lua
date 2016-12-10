@@ -26,4 +26,8 @@ function Door:open()
   self.color = {0, 0, 0}
 end
 
+function Door:reset()
+  self.isOpen = false
+end
+
 return Door

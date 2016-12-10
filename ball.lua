@@ -10,11 +10,11 @@ function Ball.new(paddle, board)
   self.width = 10
   self.height = self.width
   self.color = {255, 255, 255}
-  self.ballsLeft = 3
 
   self.display = true
 
   self:resetBall()
+  self:resetNumberOfBalls()
   return self
 end
 
@@ -102,6 +102,10 @@ end
 function Ball:disappear()
   self.display = false
   self.moving = false
+end
+
+function Ball:resetNumberOfBalls()
+  self.ballsLeft = 3
 end
 
 return Ball
