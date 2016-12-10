@@ -25,11 +25,19 @@ function Paddle.setMoving(self, direction)
 end
 
 function Paddle.moveRight(self, dt)
-  self.x = self.x + self.speed * dt
+  if self.x + 50 >= 775 then
+    self.x = 725
+  else
+    self.x = self.x + self.speed * dt
+  end
 end
 
 function Paddle.moveLeft(self, dt)
-  self.x = self.x - self.speed * dt
+  if self.x <= 25 then
+    self.x = 25
+  else
+    self.x = self.x - self.speed * dt
+  end
 end
 
 return Paddle
