@@ -12,6 +12,8 @@ function Ball.new(paddle, board)
   self.color = {255, 255, 255}
   self.ballsLeft = 3
 
+  self.display = true
+
   self:resetBall()
   return self
 end
@@ -25,8 +27,10 @@ function Ball:resetBall()
 end
 
 function Ball:draw()
-  love.graphics.setColor(self.color[1], self.color[2], self.color[3])
-  love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
+  if self.display then
+    love.graphics.setColor(self.color[1], self.color[2], self.color[3])
+    love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
+  end
 end
 
 function Ball:move(dt)
@@ -90,6 +94,14 @@ end
 
 function Ball:loseLife()
   self.ballsLeft = self.ballsLeft - 1
+  if self.ballsLeft == 0 then
+    self.board:endGame()
+  end
+end
+
+function Ball:disappear()
+  self.display = false
+  self.moving = false
 end
 
 return Ball

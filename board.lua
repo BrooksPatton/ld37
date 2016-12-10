@@ -11,6 +11,7 @@ function Board.new(door)
   self.width = 750
   self.height = 550
   self.color = {241, 241, 241}
+  self.gameOver = false
 
   self.fontSize = 24
   self.font = love.graphics.newFont(self.fontSize)
@@ -33,12 +34,17 @@ end
 function Board:collideWithDoor(ball)
   if ball.y <= self.door.y + self.door.height + self.y and ball.x > self.door.x and ball.x + ball.width < self.door.x + self.door.width then
     if self.door.isOpen then
-      print('yay you win!')
+      ball:disappear()
+      self:endGame()
     else
       self.door:open()
       return true
     end
   end
+end
+
+function Board:endGame()
+  self.gameOver = true
 end
 
 return Board

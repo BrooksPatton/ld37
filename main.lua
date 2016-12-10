@@ -9,13 +9,21 @@ function love.load()
   board = Board.new(door)
   playerPaddle = Paddle.new()
   ball = Ball.new(playerPaddle, board)
+
+  state = 'starting'
 end
 
 function love.draw()
-  board:draw(ball.ballsLeft)
+  if state == 'starting' then
+    -- show starting window
+  elseif state == 'playing' then
+    board:draw(ball.ballsLeft)
 
-  playerPaddle:draw()
-  ball:draw()
+    playerPaddle:draw()
+    ball:draw()
+  elseif state == 'gameOver' then
+    -- show game over window
+  end
 end
 
 function love.keypressed(key, scancode, isrepeat)
@@ -38,6 +46,14 @@ function love.update(dt)
     playerPaddle:moveRight(dt)
   elseif playerPaddle.movingDirection and playerPaddle.movingDirection == 'left' then
     playerPaddle:moveLeft(dt)
+  end
+
+  if board.gameOver then
+    state = 'gameOver'
+  end
+
+  if state == 'starting' then
+    state = 'playing'
   end
 
   ball:move(dt)
