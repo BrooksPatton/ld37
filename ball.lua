@@ -42,8 +42,10 @@ function Ball:move(dt)
       self.x = self.board.width + self.board.x - self.width
       self:reverseX()
     elseif self:collideWithPaddle() then
+      local angle = self:getOffsetOfPaddle()
       self.y = self.paddle.y - self.height
       self:reverseY()
+      self:changeX(angle)
     elseif self.board:collideWithDoor(self) then
       self.y = self.board.door.y + self.board.door.height + self.board.y
       self:reverseY()
@@ -119,6 +121,21 @@ function Ball:collideWithBrick()
   end
 
   return false
+end
+
+function Ball:getOffsetOfPaddle()
+  local difference = (self.x + self.width / 2) - (self.paddle.x + self.paddle.width / 2)
+  return difference
+end
+
+function Ball:changeX(angle)
+  if angle < 0 then
+    self.speedX = -90 + angle * 2
+  elseif angle == 0 then
+    self.speedX = 0
+  else
+    self.speedX = 90 + angle * 2
+  end
 end
 
 return Ball
