@@ -115,7 +115,7 @@ end
 function Ball:collideWithBrick()
   for i,brick in ipairs(self.board.bricks) do
     if self.x > brick.x and self.x + self.width < brick.x + brick.width and self.y < brick.y + brick.height and self.y + self.height > brick.y then
-      self.board:removeBrick(i)
+      self.board:resolveBrickHit(i)
       return true
     end
   end

@@ -88,8 +88,14 @@ function Board:addRowOfBricks(x, y)
 end
 
 
-function Board:removeBrick(i)
-  table.remove(self.bricks, i)
+function Board:resolveBrickHit(i)
+  if self.bricks[i].color == 'green' then
+    table.remove(self.bricks, i)
+  elseif self.bricks[i].color == 'red' then
+    self.bricks[i].color = 'green'
+  elseif self.bricks[i].color == 'blue' then
+    self.bricks[i].color = 'red'
+  end
 end
 
 function Board:removeBricks()
