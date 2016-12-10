@@ -31,12 +31,16 @@ end
 
 function love.keypressed(key, scancode, isrepeat)
   -- We want the scancode here as it is the physical key pressed and ignores whatever strange keyboard layout the user has
-  if scancode == 'a' then
-    playerPaddle:setMoving('left')
-  elseif scancode == 'd' then
-    playerPaddle:setMoving('right')
-  elseif scancode == 'space' then
-    ball:start()
+  if state == 'starting' then
+    state = 'playing'
+  elseif state == 'playing' then
+    if scancode == 'a' then
+      playerPaddle:setMoving('left')
+    elseif scancode == 'd' then
+      playerPaddle:setMoving('right')
+    elseif scancode == 'space' then
+      ball:start()
+    end
   end
 end
 
