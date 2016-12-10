@@ -9,11 +9,13 @@ function love.load()
   Welcome = require('welcome')
   GameOver = require('game-over')
   Brick = require('brick')
+  Item = require('item')
+  brickId = 0
 
   welcomeScreen = Welcome.new()
 
   door = Door.new()
-  board = Board.new(door, Brick)
+  board = Board.new(door, Brick, Item)
   playerPaddle = Paddle.new()
   ball = Ball.new(playerPaddle, board)
 
@@ -69,6 +71,7 @@ function love.update(dt)
   end
 
   ball:move(dt)
+  dropItems(board.items, dt)
 end
 
 function resetGame()
@@ -77,4 +80,12 @@ function resetGame()
   board:startGame()
   door:reset()
   state = 'playing'
+end
+
+function dropItems(items, dt)
+  for i,item in ipairs(items) do
+    if item.falling then
+      item.y = item.y + item.speed * dt
+    end
+  end
 end

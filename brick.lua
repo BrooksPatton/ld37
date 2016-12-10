@@ -1,14 +1,15 @@
 local Brick = {}
 Brick.__index = Brick
 
-function Brick.new(x, y)
+function Brick.new(x, y, Item, id)
   local self = setmetatable({}, Brick)
+
+  self.id = id
 
   -- green 1 hit 80%
   -- red 2 hits 10 %
   -- blue 3 hits 7%
   -- grey cannot break 3%
-
   local random = math.random(0, 100)
 
   self.colors = {
@@ -17,6 +18,7 @@ function Brick.new(x, y)
     blue = {42, 124, 159},
     grey = {141, 149, 163}
   }
+
 
   if random < 80 then
     self.color = 'green'
@@ -28,6 +30,7 @@ function Brick.new(x, y)
     self.color = 'grey'
   end
 
+
   self.width = 61.5
   self.height = 25
   self.x = x
@@ -37,7 +40,7 @@ function Brick.new(x, y)
 end
 
 function Brick:draw()
-  love.graphics.setColor(self.colors[self.color], self.colors[self.color], self.colors[self.color])
+  love.graphics.setColor(self.colors[self.color][1], self.colors[self.color][2], self.colors[self.color][3])
   love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
 end
 

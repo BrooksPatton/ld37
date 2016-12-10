@@ -1,7 +1,7 @@
 local Board = {}
 Board.__index = Board
 
-function Board.new(door, Brick)
+function Board.new(door, Brick, Item)
   local self = setmetatable({}, Board)
 
   self.door = door
@@ -17,6 +17,10 @@ function Board.new(door, Brick)
   self.fontColor = {0, 156, 220}
 
   self.bricks = self:generateBricks()
+
+  self.items = {}
+
+  self.brickId = 0
 
   self:startGame()
 
@@ -35,6 +39,10 @@ function Board:draw(ballsLeft)
 
   for i,brick in ipairs(self.bricks) do
     brick:draw()
+  end
+
+  for i,item in ipairs(self.items) do
+    item:draw()
   end
 end
 
@@ -58,12 +66,14 @@ function Board:startGame()
   self.gameOver = false
   self:removeBricks()
   self.bricks = self:generateBricks()
+  self.items = self:generateItems()
 end
 
 function Board:generateBricks()
   local bricks = {}
   local x = self.x
   local y = self.y *2
+  brickId = 1
 
   for i=1,5 do
     bricks = self:concatTables(self:addRowOfBricks(x, y), bricks)
@@ -79,23 +89,44 @@ function Board:addRowOfBricks(x, y)
   local bricks = {}
 
   for i=1,12 do
-    brick = Brick.new(x, y)
+    brick = Brick.new(x, y, Item, brickId)
     table.insert(bricks, brick)
     x = x + brick.width + 1
+    brickId = brickId + 1
   end
 
   return bricks
 end
 
+function Board:generateItems()
+  local items = {}
+  for i, brick in ipairs(self.bricks) do
+    table.insert(items, Item.new(math.random(1, 3), brick))
+  end
+
+  return items
+end
 
 function Board:resolveBrickHit(i)
   if self.bricks[i].color == 'green' then
+    local item = self:getItemByBrickId(self.bricks[i].id)
+    item:startFalling()
     table.remove(self.bricks, i)
   elseif self.bricks[i].color == 'red' then
     self.bricks[i].color = 'green'
   elseif self.bricks[i].color == 'blue' then
     self.bricks[i].color = 'red'
   end
+end
+
+function Board:getItemByBrickId(id)
+  for i,item in ipairs(self.items) do
+    if item.brickId == id then
+      return item
+    end
+  end
+
+  return nil
 end
 
 function Board:removeBricks()
