@@ -5,7 +5,7 @@ function love.load()
   Ball = require('ball')
 
   playerPaddle = Paddle.new()
-  ball = Ball.new()
+  ball = Ball.new(playerPaddle)
 end
 
 function love.draw()
