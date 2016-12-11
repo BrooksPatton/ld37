@@ -55,10 +55,10 @@ function Item:startFalling()
 end
 
 function Item:collideWithPaddle(paddle)
-  return (self.x > paddle.x and self.x < paddle.x + paddle.width and self.y + self.height > paddle.y and self.y + self.height < paddle.y + paddle.height)
-        or (self.x > paddle.x and self.x < paddle.x + paddle.width and self.y > paddle.y and self.y < paddle.y + paddle.height)
-        or (self.x + self.width > paddle.x and self.x + self.width < paddle.x + paddle.width and self.y + self.height > paddle.y and self.y + self.height < paddle.y + paddle.height)
-        or (self.x + self.width > paddle.x and self.x + self.width < paddle.x + paddle.width and self.y > paddle.y and self.y < paddle.y + paddle.height)
+  return (self.x >= paddle.x and self.x <= paddle.x + paddle.width and self.y + self.height >= paddle.y and self.y + self.height <= paddle.y + paddle.height)
+        or (self.x >= paddle.x and self.x <= paddle.x + paddle.width and self.y >= paddle.y and self.y <= paddle.y + paddle.height)
+        or (self.x + self.width >= paddle.x and self.x + self.width <= paddle.x + paddle.width and self.y + self.height >= paddle.y and self.y + self.height <= paddle.y + paddle.height)
+        or (self.x + self.width >= paddle.x and self.x + self.width <= paddle.x + paddle.width and self.y >= paddle.y and self.y <= paddle.y + paddle.height)
 end
 
 return Item
