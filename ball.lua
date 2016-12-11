@@ -57,8 +57,8 @@ function Ball:move(dt)
     elseif self:collideWithBottom() then
       self:loseLife()
       self:resetBall()
-    elseif self:collideWithBrick() then
-      self:reverseY()
+    else
+      self:collideWithBrick()
     end
 
     local speedboostX = self.speedX * self.paddle.ballSpeedUp
@@ -124,6 +124,8 @@ function Ball:collideWithBrick()
   for i,brick in ipairs(self.board.bricks) do
     if self:checkCollision(brick) then
       self.board:resolveBrickHit(i)
+      -- move the ball to the appropriate side so that it is not inside the brick
+      self:moveOutsideCollidedObject(brick)
       return true
     end
   end
@@ -152,6 +154,35 @@ function Ball:changeX(angle)
     self.speedX = 0
   else
     self.speedX = 90 + angle * 2
+  end
+end
+
+function Ball:moveOutsideCollidedObject(item)
+  local reverseY = false
+  local reverseX = false
+
+  if self.y + self.height < item.y + (item.height / 2) then
+    -- if we are on the top, move to the top
+    self.y = item.y - self.height
+    reverseY = true
+  elseif self.y > item.y + (item.height / 2) then
+    -- if we are on the bottom, move to the bottom
+    self.y = item.y + item.height
+    reverseY = true
+  elseif self.x + self.width < item.x + (item.width / 2) then
+    -- if we are on the left, move to the left
+    self.x = item.x - self.width
+    reverseX = true
+  elseif self.x > item.x + (item.width / 2) then
+    -- if we are on the right, move to the right
+    self.x = item.x + item.width
+    reverseX = true
+  end
+
+  if reverseY then
+    self:reverseY()
+  elseif reverseX then
+    self:reverseX()
   end
 end
 
