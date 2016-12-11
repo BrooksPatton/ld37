@@ -10,6 +10,8 @@ function Laser.new()
 
   self.stopFiring = 6
 
+  self.height = 20
+
   return self
 end
 
@@ -28,7 +30,7 @@ function Laser:draw()
 
   if self.firing then
     love.graphics.setColor(255, 0, 0)
-    love.graphics.rectangle('fill', 0, self.y - 10, 800, 20)
+    love.graphics.rectangle('fill', 0, self.y, 800, 20)
   end
 end
 
@@ -42,6 +44,11 @@ function Laser:setFiringStatus()
     self.aiming = false
     self.finished = true
   end
+end
+
+function Laser:hitPaddle(paddle)
+  return paddle.y > self.y and paddle.y < self.y + self.height
+        and paddle.y + paddle.height > self.y and paddle.y + paddle.height < self.y + self.height
 end
 
 return Laser

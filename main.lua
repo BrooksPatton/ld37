@@ -37,7 +37,9 @@ function love.draw()
     gameOverScreen:draw()
   end
 
-  drawLasers()
+  if ball.moving then
+    drawLasers()
+  end
 end
 
 function love.keypressed(key, scancode, isrepeat)
@@ -70,6 +72,9 @@ function love.update(dt)
       end
 
       laser:setFiringStatus()
+      if laser:hitPaddle(playerPaddle) then
+        ball:loseLife()
+      end
     end
 
     if shouldWeFireLaser() then
