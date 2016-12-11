@@ -63,18 +63,22 @@ function love.update(dt)
 
   ball:move(dt)
 
-  for i,laser in ipairs(lasers) do
-    if laser.finished then
-      table.remove(lasers, i)
+  if ball.moving then
+    for i,laser in ipairs(lasers) do
+      if laser.finished then
+        table.remove(lasers, i)
+      end
+
+      laser:setFiringStatus()
     end
-  end
 
-  if shouldWeFireLaser() then
-    local laser = Laser.new()
+    if shouldWeFireLaser() then
+      local laser = Laser.new()
 
-    laser:startFiringSequence(board)
+      laser:startFiringSequence(board)
 
-    table.insert(lasers, laser)
+      table.insert(lasers, laser)
+    end
   end
 
   dropItems(board.items, dt)
