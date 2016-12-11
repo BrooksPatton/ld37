@@ -11,6 +11,10 @@ function love.load()
   Brick = require('brick')
   Item = require('item')
   Laser = require('laser')
+  sounds = {
+    itemCaughtDown = love.audio.newSource('sounds/item_caught_down.wav', 'static'),
+    itemCaughtUp = love.audio.newSource('sounds/item_caught_up.wav', 'static')
+  }
 
   welcomeScreen = Welcome.new()
 
@@ -110,6 +114,12 @@ end
 function checkItemCollison(items)
   for i,item in ipairs(items) do
     if item:collideWithPaddle(playerPaddle) then
+      love.audio.setVolume(1)
+      if item.item.value > 0 then
+        love.audio.play(sounds.itemCaughtUp)
+      else
+        love.audio.play(sounds.itemCaughtDown)
+      end
       playerPaddle:applyItem(item)
       board:removeItem(item)
     end
