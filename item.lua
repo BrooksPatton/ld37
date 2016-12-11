@@ -1,3 +1,7 @@
+local images = {
+  paddleSpeedUp = love.graphics.newImage('images/paddle_speed_up.png')
+}
+
 local Item = {}
 Item.__index = Item
 
@@ -7,36 +11,29 @@ function Item.new(i, brick)
   self.brickId = brick.id
 
   self.possibleItems = {
-    {name = 'paddle size up', value = 5, logo = 'P+'},
-    {name = 'ball speed up', value = 0.2, logo = 'B+'},
-    {name = 'paddle speed up', value = 15, logo = 'PS+'},
-    {name = 'paddle size down', value = -5, logo = 'P-'},
-    {name = 'ball speed down', value = -0.2, logo = 'B-'},
-    {name = 'paddle speed down', value = -15, logo = 'PS-'},
+    {name = 'paddle size up', value = 5, logo = images.paddleSpeedUp},
+    {name = 'ball speed up', value = 0.2, logo = images.paddleSpeedUp},
+    {name = 'paddle speed up', value = 15, logo = images.paddleSpeedUp},
+    {name = 'paddle size down', value = -5, logo = images.paddleSpeedUp},
+    {name = 'ball speed down', value = -0.2, logo = images.paddleSpeedUp},
+    {name = 'paddle speed down', value = -15, logo = images.paddleSpeedUp},
   }
 
   self.item = self.possibleItems[i]
 
-  self.font = love.graphics.newFont(18)
   self.falling = false
   self.speed = 100
-  self.y = brick.y + brick.height / 2 - self.font:getHeight() / 2
+  self.y = brick.y
   self.x = brick.x
-  self.width = brick.width
-  self.height = self.font:getHeight()
+  self.width = self.possibleItems[1].logo:getWidth()
+  self.brickWidth = brick.width
+  self.height = self.possibleItems[1].logo:getHeight()
 
   return self
 end
 
 function Item:draw()
-  if self.falling then
-    love.graphics.setColor(255, 255, 255)
-  else
-    love.graphics.setColor(0, 0, 0)
-  end
-
-  love.graphics.setFont(self.font)
-  love.graphics.printf(self.item.logo, self.x, self.y, self.width, 'center')
+  love.graphics.draw(self.item.logo, self.x + (self.brickWidth / 2) - (self.width / 2), self.y)
 end
 
 function Item:startFalling()
