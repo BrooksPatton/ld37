@@ -47,8 +47,15 @@ function Laser:setFiringStatus()
 end
 
 function Laser:hitPaddle(paddle)
-  return paddle.y > self.y and paddle.y < self.y + self.height
-        and paddle.y + paddle.height > self.y and paddle.y + paddle.height < self.y + self.height
+  if self.firing and not self.finished then
+    if paddle.y >= self.y and paddle.y <= self.y + self.height
+              or paddle.y + paddle.height >= self.y and paddle.y + paddle.height <= self.y + self.height then 
+      self.finished = true
+      return true
+    end
+  end
+
+  return false
 end
 
 return Laser
