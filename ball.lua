@@ -1,3 +1,14 @@
+local sounds = {
+  hitWall = love.audio.newSource('sounds/ball_hit_wall.wav', 'static'),
+  hitBrick = {
+    green = love.audio.newSource('sounds/ball_hit_brick_1.wav', 'static'),
+    red = love.audio.newSource('sounds/ball_hit_brick_2.wav', 'static'),
+    blue = love.audio.newSource('sounds/ball_hit_brick_3.wav', 'static'),
+    grey = love.audio.newSource('sounds/ball_hit_brick_4.wav', 'static')
+  },
+  hitPaddle = love.audio.newSource('sounds/ball_hit_paddle.wav', 'static')
+}
+
 local Ball = {}
 Ball.__index = Ball
 
@@ -10,6 +21,12 @@ function Ball.new(paddle, board)
   self.width = 10
   self.height = self.width
   self.color = {255, 255, 255}
+
+  self.sounds = {
+    hitWall = sounds.hitWall,
+    hitBrick = sounds.hitBrick,
+    hitPaddle = sounds.hitPaddle
+  }
 
   self:resetBall()
   self:resetNumberOfBalls()
@@ -38,12 +55,18 @@ end
 function Ball:move(dt)
   if self.moving then
     if self:collideWithLeft() then
+      love.audio.setVolume(1)
+      love.audio.play(self.sounds.hitWall)
       self.x = self.board.x
       self:reverseX()
     elseif self:collideWithRight() then
+      love.audio.setVolume(1)
+      love.audio.play(self.sounds.hitWall)
       self.x = self.board.width + self.board.x - self.width
       self:reverseX()
     elseif self:collideWithPaddle() then
+      love.audio.setVolume(1)
+      love.audio.play(self.sounds.hitPaddle)
       local angle = self:getOffsetOfPaddle()
       self.y = self.paddle.y - self.height
       self:reverseY()
@@ -52,6 +75,8 @@ function Ball:move(dt)
       self.y = self.board.door.y + self.board.door.height
       self:reverseY()
     elseif self:collideWithTop() then
+      love.audio.setVolume(1)
+      love.audio.play(self.sounds.hitWall)
       self.y = self.board.y
       self.speedY = self.speedY * -1
     elseif self:collideWithBottom() then
@@ -123,6 +148,9 @@ end
 function Ball:collideWithBrick()
   for i,brick in ipairs(self.board.bricks) do
     if self:checkCollision(brick) then
+      love.audio.setVolume(1)
+      love.audio.rewind(self.sounds.hitBrick[brick.color])
+      love.audio.play(self.sounds.hitBrick[brick.color])
       self.board:resolveBrickHit(i)
       -- move the ball to the appropriate side so that it is not inside the brick
       self:moveOutsideCollidedObject(brick)
