@@ -71,6 +71,7 @@ function love.update(dt)
 
   ball:move(dt)
   dropItems(board.items, dt)
+  checkItemCollison(board.items)
 end
 
 function resetGame()
@@ -85,10 +86,15 @@ function dropItems(items, dt)
   for i,item in ipairs(items) do
     if item.falling then
       item.y = item.y + item.speed * dt
+    end
+  end
+end
 
-      if item:collideWithPaddle(playerPaddle) then
-        playerPaddle:applyItem(item)
-      end
+function checkItemCollison(items)
+  for i,item in ipairs(items) do
+    if item:collideWithPaddle(playerPaddle) then
+      playerPaddle:applyItem(item)
+      board:removeItem(item)
     end
   end
 end

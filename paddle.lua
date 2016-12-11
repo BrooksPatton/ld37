@@ -53,6 +53,12 @@ function Paddle:applyItem(item)
     self.speed = self.speed + item.item.value
   elseif item.item.name == 'ball speed up' then
     self.ballSpeedUp = self.ballSpeedUp + item.item.value
+  elseif item.item.name == 'paddle size down' then
+    self.width = self.width + item.item.value
+  elseif item.item.name == 'paddle speed down' then
+    self.speed = self.speed + item.item.value
+  elseif item.item.name == 'ball speed down' then
+    self.ballSpeedUp = self.ballSpeedUp + item.item.value
   end
 end
 

@@ -7,9 +7,12 @@ function Item.new(i, brick)
   self.brickId = brick.id
 
   self.possibleItems = {
-    {name = 'paddle size up', value = 2, logo = 'P+'},
-    {name = 'ball speed up', value = 0.01, logo = 'B+'},
-    {name = 'paddle speed up', value = 10, logo = 'PS+'}
+    {name = 'paddle size up', value = 5, logo = 'P+'},
+    {name = 'ball speed up', value = 0.2, logo = 'B+'},
+    {name = 'paddle speed up', value = 15, logo = 'PS+'},
+    {name = 'paddle size down', value = -5, logo = 'P-'},
+    {name = 'ball speed down', value = -0.2, logo = 'B-'},
+    {name = 'paddle speed down', value = -15, logo = 'PS-'},
   }
 
   self.item = self.possibleItems[i]

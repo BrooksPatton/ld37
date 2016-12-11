@@ -11,8 +11,6 @@ function Ball.new(paddle, board)
   self.height = self.width
   self.color = {255, 255, 255}
 
-  self.display = true
-
   self:resetBall()
   self:resetNumberOfBalls()
   return self
@@ -22,8 +20,9 @@ function Ball:resetBall()
   self.x = 400 - self.width / 2
   self.y = 500
   self.moving = false
-  self.speedX = 250
-  self.speedY = -250
+  self.speedX = 150
+  self.speedY = -150
+  self.display = true
   self.paddle:resetBallSpeedUp()
   self.paddle:resetPaddle()
   self.board:removeFallingItems()

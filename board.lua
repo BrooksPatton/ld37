@@ -100,8 +100,11 @@ end
 
 function Board:generateItems()
   local items = {}
+
   for i, brick in ipairs(self.bricks) do
-    table.insert(items, Item.new(math.random(1, 3), brick))
+    if math.random(0, 100) <= 30 then
+      table.insert(items, Item.new(math.random(1, 6), brick))
+    end
   end
 
   return items
@@ -110,7 +113,9 @@ end
 function Board:resolveBrickHit(i)
   if self.bricks[i].color == 'green' then
     local item = self:getItemByBrickId(self.bricks[i].id)
-    item:startFalling()
+    if item then
+      item:startFalling()
+    end
     table.remove(self.bricks, i)
   elseif self.bricks[i].color == 'red' then
     self.bricks[i].color = 'green'
@@ -144,6 +149,14 @@ end
 function Board:removeFallingItems()
   for i,item in ipairs(self.items) do
     if item.falling then
+      table.remove(self.items, i)
+    end
+  end
+end
+
+function Board:removeItem(item)
+  for i,v in ipairs(self.items) do
+    if v.brickId == item.brickId then
       table.remove(self.items, i)
     end
   end
