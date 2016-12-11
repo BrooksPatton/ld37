@@ -7,7 +7,8 @@ local sounds = {
     grey = love.audio.newSource('sounds/ball_hit_brick_4.wav', 'static')
   },
   hitPaddle = love.audio.newSource('sounds/ball_hit_paddle.wav', 'static'),
-  ballLost = love.audio.newSource('sounds/ball_lost.wav', 'static')
+  ballLost = love.audio.newSource('sounds/ball_lost.wav', 'static'),
+  hitDoor = love.audio.newSource('sounds/ball_hit_door.wav', 'static')
 }
 
 local Ball = {}
@@ -27,7 +28,8 @@ function Ball.new(paddle, board)
     hitWall = sounds.hitWall,
     hitBrick = sounds.hitBrick,
     hitPaddle = sounds.hitPaddle,
-    ballLost = sounds.ballLost
+    ballLost = sounds.ballLost,
+    hitDoor = sounds.hitDoor
   }
 
   self:resetBall()
@@ -74,6 +76,8 @@ function Ball:move(dt)
       self:reverseY()
       self:changeX(angle)
     elseif self.board:collideWithDoor(self) then
+      love.audio.setVolume(1)
+      love.audio.play(self.sounds.hitDoor)
       self.y = self.board.door.y + self.board.door.height
       self:reverseY()
     elseif self:collideWithTop() then
