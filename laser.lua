@@ -25,7 +25,7 @@ end
 function Laser:draw()
   if self.aiming then
     love.graphics.setColor(255, 0, 0, 75)
-    love.graphics.rectangle('fill', 0, self.y, 800, 1)
+    love.graphics.rectangle('fill', 0, self.y, 800, 20)
   end
 
   if self.firing then

@@ -122,5 +122,5 @@ function drawLasers()
 end
 
 function shouldWeFireLaser()
-  return math.random(0, 100) < 1
+  return math.random(0, 1000) < 2
 end
