@@ -79,7 +79,7 @@ function love.update(dt)
     end
 
     if shouldWeFireLaser() then
-      local laser = Laser.new()
+      local laser = Laser.new(lasers)
 
       laser:startFiringSequence(board)
 
