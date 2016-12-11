@@ -47,7 +47,7 @@ function Board:draw(ballsLeft)
 end
 
 function Board:collideWithDoor(ball)
-  if ball.y <= self.door.y + self.door.height + self.y and ball.x > self.door.x and ball.x + ball.width < self.door.x + self.door.width then
+  if ball.y <= self.door.y + self.door.height and ball.x >= self.door.x and ball.x + ball.width <= self.door.x + self.door.width then
     if self.door.isOpen then
       ball:disappear()
       self:endGame()

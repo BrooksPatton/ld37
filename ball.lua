@@ -49,7 +49,7 @@ function Ball:move(dt)
       self:reverseY()
       self:changeX(angle)
     elseif self.board:collideWithDoor(self) then
-      self.y = self.board.door.y + self.board.door.height + self.board.y
+      self.y = self.board.door.y + self.board.door.height
       self:reverseY()
     elseif self:collideWithTop() then
       self.y = self.board.y
