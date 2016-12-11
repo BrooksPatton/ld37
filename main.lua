@@ -77,6 +77,7 @@ function love.update(dt)
       end
 
       laser:setFiringStatus()
+
       if laser:hitPaddle(playerPaddle) then
         ball:loseLife()
       end

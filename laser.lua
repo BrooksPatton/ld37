@@ -1,3 +1,4 @@
+local sound = love.audio.newSource('sounds/laser_shoots.wav', 'static')
 local Laser = {}
 Laser.__index = Laser
 
@@ -9,6 +10,7 @@ function Laser.new(allLasers)
   self.timeToFire = 3
 
   self.stopFiring = 6
+  self.sound = sound
 
   self.height = 20
   self.y = math.random(200, board.height + board.y)
@@ -20,7 +22,7 @@ function Laser.new(allLasers)
 end
 
 function Laser:startFiringSequence(board)
-
+  self:playSound()
   self.aiming = true
   self.startedAiming = love.timer.getTime()
 end
@@ -68,6 +70,11 @@ function Laser:onTopOfAnotherLaser(allLasers)
     end
   end
   return false
+end
+
+function Laser:playSound()
+  love.audio.setVolume(0.5)
+  love.audio.play(self.sound)
 end
 
 return Laser
