@@ -7,6 +7,8 @@ local images = {
   paddleSizeDown = love.graphics.newImage('images/paddle_size_down.png')
 }
 
+local fallingSound = love.audio.newSource('sounds/item_breaks_free.wav', 'static')
+
 local Item = {}
 Item.__index = Item
 
@@ -23,6 +25,8 @@ function Item.new(i, brick)
     {name = 'ball speed down', value = -0.2, logo = images.ballSpeedDown},
     {name = 'paddle speed down', value = -15, logo = images.paddleSpeedDown}
   }
+
+  self.fallingSound = fallingSound
 
   self.item = self.possibleItems[i]
 
@@ -46,6 +50,8 @@ end
 
 function Item:startFalling()
   self.falling = true
+  love.audio.setVolume(1)
+  love.audio.play(self.fallingSound)
 end
 
 function Item:collideWithPaddle(paddle)
