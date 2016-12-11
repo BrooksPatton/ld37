@@ -18,6 +18,7 @@ function love.load()
   board = Board.new(door, Brick, Item)
   playerPaddle = Paddle.new()
   ball = Ball.new(playerPaddle, board)
+  lasers = {}
 
   gameOverScreen = GameOver.new()
 
@@ -35,6 +36,8 @@ function love.draw()
   elseif state == 'gameOver' then
     gameOverScreen:draw()
   end
+
+  drawLasers()
 end
 
 function love.keypressed(key, scancode, isrepeat)
@@ -59,6 +62,20 @@ function love.update(dt)
   end
 
   ball:move(dt)
+
+  for i,laser in ipairs(lasers) do
+    if laser.finished then
+      table.remove(lasers, i)
+    end
+  end
+
+  if shouldWeFireLaser() then
+    local laser = Laser.new()
+
+    laser:startFiringSequence(board)
+
+    table.insert(lasers, laser)
+  end
 
   dropItems(board.items, dt)
   checkItemCollison(board.items)
@@ -87,4 +104,14 @@ function checkItemCollison(items)
       board:removeItem(item)
     end
   end
+end
+
+function drawLasers()
+  for i,laser in ipairs(lasers) do
+    laser:draw()
+  end
+end
+
+function shouldWeFireLaser()
+  return math.random(0, 100) < 1
 end
