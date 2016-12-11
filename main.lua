@@ -60,6 +60,7 @@ function love.update(dt)
 
   if board.gameOver then
     gameOverScreen:updateTitle(ball)
+    lasers = {}
     state = 'gameOver'
   end
 
@@ -122,5 +123,5 @@ function drawLasers()
 end
 
 function shouldWeFireLaser()
-  return math.random(0, 1000) < 2
+  return math.random(0, 100) < 1
 end
