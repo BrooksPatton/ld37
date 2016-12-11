@@ -1,5 +1,10 @@
 local images = {
-  paddleSpeedUp = love.graphics.newImage('images/paddle_speed_up.png')
+  paddleSpeedUp = love.graphics.newImage('images/paddle_speed_up.png'),
+  ballSpeedUp = love.graphics.newImage('images/ball_speed_up.png'),
+  paddleSizeUp = love.graphics.newImage('images/paddle_size_up.png'),
+  paddleSpeedDown = love.graphics.newImage('images/paddle_speed_down.png'),
+  ballSpeedDown = love.graphics.newImage('images/ball_speed_down.png'),
+  paddleSizeDown = love.graphics.newImage('images/paddle_size_down.png')
 }
 
 local Item = {}
@@ -11,12 +16,12 @@ function Item.new(i, brick)
   self.brickId = brick.id
 
   self.possibleItems = {
-    {name = 'paddle size up', value = 5, logo = images.paddleSpeedUp},
-    {name = 'ball speed up', value = 0.2, logo = images.paddleSpeedUp},
+    {name = 'paddle size up', value = 5, logo = images.paddleSizeUp},
+    {name = 'ball speed up', value = 0.2, logo = images.ballSpeedUp},
     {name = 'paddle speed up', value = 15, logo = images.paddleSpeedUp},
-    {name = 'paddle size down', value = -5, logo = images.paddleSpeedUp},
-    {name = 'ball speed down', value = -0.2, logo = images.paddleSpeedUp},
-    {name = 'paddle speed down', value = -15, logo = images.paddleSpeedUp},
+    {name = 'paddle size down', value = -5, logo = images.paddleSizeDown},
+    {name = 'ball speed down', value = -0.2, logo = images.ballSpeedDown},
+    {name = 'paddle speed down', value = -15, logo = images.paddleSpeedDown}
   }
 
   self.item = self.possibleItems[i]
@@ -28,11 +33,14 @@ function Item.new(i, brick)
   self.width = self.possibleItems[1].logo:getWidth()
   self.brickWidth = brick.width
   self.height = self.possibleItems[1].logo:getHeight()
+  self.brickColor = brick.colors[brick.color]
 
   return self
 end
 
 function Item:draw()
+  -- love.graphics.setColor(self.brickColor[1], self.brickColor[2], self.brickColor[3])
+  love.graphics.setColor(255, 255, 255)
   love.graphics.draw(self.item.logo, self.x + (self.brickWidth / 2) - (self.width / 2), self.y)
 end
 
