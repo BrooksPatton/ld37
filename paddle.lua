@@ -8,7 +8,6 @@ function Paddle.new()
   self.y = 550
   self.height = 15
   self.color = {171, 173, 156}
-  self.movingDirection = nil
   self.ballSpeedUp = 1
 
   self:resetPaddle()
@@ -26,23 +25,37 @@ function Paddle:draw()
   love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
 end
 
-function Paddle:setMoving(direction)
-  self.movingDirection = direction
-end
-
-function Paddle:moveRight(dt)
-  if self.x + 50 >= 775 then
-    self.x = 725
-  else
-    self.x = self.x + self.speed * dt
+function Paddle:move(dt)
+  if love.keyboard.isScancodeDown('w') then
+    if self.y <= 200 then
+      self.y = 200
+    else
+      self.y = self.y - self.speed * dt
+    end
   end
-end
 
-function Paddle:moveLeft(dt)
-  if self.x <= 25 then
-    self.x = 25
-  else
-    self.x = self.x - self.speed * dt
+  if love.keyboard.isScancodeDown('d') then
+    if self.x + self.width >= 775 then
+      self.x = 775 - self.width
+    else
+      self.x = self.x + self.speed * dt
+    end
+  end
+
+  if love.keyboard.isScancodeDown('s') then
+    if self.y + self.height >= 575 then
+      self.y = 575 - self.height
+    else
+      self.y = self.y + self.speed * dt
+    end
+  end
+
+  if love.keyboard.isScancodeDown('a') then
+    if self.x <= 25 then
+      self.x = 25
+    else
+      self.x = self.x - self.speed * dt
+    end
   end
 end
 

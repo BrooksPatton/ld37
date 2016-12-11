@@ -10,6 +10,7 @@ function love.load()
   GameOver = require('game-over')
   Brick = require('brick')
   Item = require('item')
+  Laser = require('laser')
 
   welcomeScreen = Welcome.new()
 
@@ -41,11 +42,7 @@ function love.keypressed(key, scancode, isrepeat)
   if state == 'starting' then
     state = 'playing'
   elseif state == 'playing' then
-    if scancode == 'a' then
-      playerPaddle:setMoving('left')
-    elseif scancode == 'd' then
-      playerPaddle:setMoving('right')
-    elseif scancode == 'space' then
+    if scancode == 'space' then
       ball:start()
     end
   elseif state == 'gameOver' then
@@ -53,16 +50,8 @@ function love.keypressed(key, scancode, isrepeat)
   end
 end
 
-function love.keyreleased(key)
-  playerPaddle:setMoving(nil)
-end
-
 function love.update(dt)
-  if playerPaddle.movingDirection and playerPaddle.movingDirection == 'right' then
-    playerPaddle:moveRight(dt)
-  elseif playerPaddle.movingDirection and playerPaddle.movingDirection == 'left' then
-    playerPaddle:moveLeft(dt)
-  end
+  playerPaddle:move(dt)
 
   if board.gameOver then
     gameOverScreen:updateTitle(ball)
@@ -70,6 +59,7 @@ function love.update(dt)
   end
 
   ball:move(dt)
+
   dropItems(board.items, dt)
   checkItemCollison(board.items)
 end
