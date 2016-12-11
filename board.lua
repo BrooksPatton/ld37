@@ -102,7 +102,7 @@ function Board:generateItems()
   local items = {}
 
   for i, brick in ipairs(self.bricks) do
-    if math.random(0, 100) <= 30 then
+    if math.random(0, 100) <= 40 then
       table.insert(items, Item.new(math.random(1, 6), brick))
     end
   end

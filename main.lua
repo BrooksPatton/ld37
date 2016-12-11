@@ -105,6 +105,7 @@ function resetGame()
   ball:resetBall()
   board:startGame()
   door:reset()
+  laesrs = {}
   state = 'playing'
 end
 

@@ -17,6 +17,8 @@ Ball.__index = Ball
 function Ball.new(paddle, board)
   local self = setmetatable({}, Ball)
 
+  self.startingSpeed = 250
+
   self.paddle = paddle
   self.board = board
 
@@ -41,8 +43,8 @@ function Ball:resetBall()
   self.x = 400 - self.width / 2
   self.y = 500
   self.moving = false
-  self.speedX = 150
-  self.speedY = -150
+  self.speedX = self.startingSpeed
+  self.speedY = self.startingSpeed * -1
   self.display = true
   self.paddle:resetBallSpeedUp()
   self.paddle:resetPaddle()
