@@ -6,7 +6,8 @@ local sounds = {
     blue = love.audio.newSource('sounds/ball_hit_brick_3.wav', 'static'),
     grey = love.audio.newSource('sounds/ball_hit_brick_4.wav', 'static')
   },
-  hitPaddle = love.audio.newSource('sounds/ball_hit_paddle.wav', 'static')
+  hitPaddle = love.audio.newSource('sounds/ball_hit_paddle.wav', 'static'),
+  ballLost = love.audio.newSource('sounds/ball_lost.wav', 'static')
 }
 
 local Ball = {}
@@ -25,7 +26,8 @@ function Ball.new(paddle, board)
   self.sounds = {
     hitWall = sounds.hitWall,
     hitBrick = sounds.hitBrick,
-    hitPaddle = sounds.hitPaddle
+    hitPaddle = sounds.hitPaddle,
+    ballLost = sounds.ballLost
   }
 
   self:resetBall()
@@ -130,6 +132,8 @@ function Ball:start()
 end
 
 function Ball:loseLife()
+  love.audio.setVolume(1)
+  love.audio.play(self.sounds.ballLost)
   self.ballsLeft = self.ballsLeft - 1
   if self.ballsLeft == 0 then
     self.board:endGame()
