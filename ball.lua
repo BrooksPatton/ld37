@@ -70,7 +70,10 @@ function Ball:move(dt)
 end
 
 function Ball:collideWithPaddle()
-  return self.x > self.paddle.x and self.x + self.width < self.paddle.x + self.paddle.width and self.y + self.height > self.paddle.y and self.y + self.height < self.paddle.y + self.paddle.height
+  return self.x > self.paddle.x and self.x < self.paddle.x + self.paddle.width and self.y > self.paddle.y and self.y < self.paddle.height
+        or self.x + self.width > self.paddle.x and self.x + self.width < self.paddle.x + self.paddle.width and self.y > self.paddle.y and self.y < self.paddle.y + self.paddle.height
+        or self.x > self.paddle.x and self.x < self.paddle.x + self.paddle.width and self.y + self.height > self.paddle.y and self.y + self.height < self.paddle.y + self.paddle.height
+        or self.x + self.width > self.paddle.x and self.x + self.width < self.paddle.x + self.paddle.width and self.y + self.height > self.paddle.y and self.y + self.height < self.paddle.y + self.paddle.height
 end
 
 function Ball:collideWithLeft()
