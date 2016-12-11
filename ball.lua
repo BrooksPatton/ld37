@@ -122,13 +122,22 @@ end
 
 function Ball:collideWithBrick()
   for i,brick in ipairs(self.board.bricks) do
-    if self.x > brick.x and self.x + self.width < brick.x + brick.width and self.y < brick.y + brick.height and self.y + self.height > brick.y then
+    if self:checkCollision(brick) then
       self.board:resolveBrickHit(i)
       return true
     end
   end
 
   return false
+end
+
+function Ball:checkCollision(item)
+  local topLeft = self.x > item.x and self.x < item.x + item.width and self.y > item.y and self.y < item.y + item.height
+  local bottomLeft = self.x > item.x and self.x < item.x + item.width and self.y + self.height > item.y and self.y + self.height < item.y + item.height
+  local topRight = self.x + self.width > item.x and self.x + self.width < item.x + item.width and self.y > item.y and self.y < item.y + item.height
+  local bottomRight = self.x + self.width > item.x and self.x + self.width < item.x + item.width and self.y + self.height > item.y and self.y + self.height < item.y + item.height
+
+  return topLeft or bottomLeft or topRight or bottomRight
 end
 
 function Ball:getOffsetOfPaddle()
