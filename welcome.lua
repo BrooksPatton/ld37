@@ -4,11 +4,10 @@ Welcome.__index = Welcome
 function Welcome.new()
   local self = setmetatable({}, Welcome)
 
-
   self.mainTitle = {
-    fontSize = 64,
+    fontSize = 48,
     color = {228, 235, 248},
-    text = 'Breakout Da Room!'
+    text = 'Breakout of The Room!'
   }
 
   self.mainTitle.font = love.graphics.newFont(self.mainTitle.fontSize)
@@ -17,6 +16,8 @@ function Welcome.new()
     fontSize = 14,
     text = {
       'You are trapped in a room',
+      'Destroy the bricks in your way',
+      'Upgrade yourself with some items',
       'Break down the door',
       '...and escape'
     }
@@ -39,7 +40,13 @@ function Welcome.new()
     text = {
       '"A" moves paddle left',
       '"D" moves paddle right',
-      '"SPACE" starts the ball moving'
+      '"W" moves paddle up',
+      '"S" moves paddle down',
+      '',
+      '"SPACE" starts the ball moving',
+      '',
+      '',
+      'and don\'t forget about the lasers'
     }
   }
 
@@ -62,12 +69,12 @@ function Welcome:draw()
   local fontWidth = self.mainTitle.font:getWidth(self.mainTitle.text)
   local fontHeight = self.mainTitle.font:getHeight(self.mainTitle.text)
 
-  love.graphics.print(self.mainTitle.text, 400 - fontWidth / 2, 200 - fontHeight / 2)
+  love.graphics.print(self.mainTitle.text, 400 - fontWidth / 2, 100 - fontHeight / 2)
 
   love.graphics.setFont(self.objectives.font)
   fontHeight = self.objectives.font:getHeight(self.objectives.text[1])
   local x = 75
-  local y = 300
+  local y = 200
 
   for i,text in ipairs(self.objectives.text) do
     love.graphics.print(text, x, y)
@@ -78,7 +85,7 @@ function Welcome:draw()
   fontHeight = self.attribution.font:getHeight(self.attribution.text[1])
   fontWidth = self.attribution.font:getWidth(self.attribution.text[1])
   local x = 800 - fontWidth - 75
-  local y = 300
+  local y = 200
 
   for i,text in ipairs(self.attribution.text) do
     love.graphics.print(text, x, y)
@@ -86,7 +93,7 @@ function Welcome:draw()
   end
 
   love.graphics.setFont(self.controls.font)
-  local y = 400
+  local y = 325
 
   for i,text in ipairs(self.controls.text) do
     love.graphics.printf(text, 0, y, 800, 'center')
@@ -94,7 +101,7 @@ function Welcome:draw()
   end
 
   love.graphics.setFont(self.begin.font)
-  love.graphics.printf(self.begin.text, 0, 500, 800, 'center')
+  love.graphics.printf(self.begin.text, 0, 550, 800, 'center')
 end
 
 return Welcome
