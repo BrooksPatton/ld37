@@ -48,13 +48,17 @@ end
 
 function love.keypressed(key, scancode, isrepeat)
   -- We want the scancode here as it is the physical key pressed and ignores whatever strange keyboard layout the user has
-  if state == 'starting' then
+  if state == 'starting' and scancode == 'enter' or scancode == 'return' then
     state = 'playing'
-  elseif state == 'playing' then
+  end
+
+  if state == 'playing' then
     if scancode == 'space' then
       ball:start()
     end
-  elseif state == 'gameOver' then
+  end
+
+  if state == 'gameOver' and scancode == 'enter' or scancode == 'return' then
     resetGame()
   end
 end
