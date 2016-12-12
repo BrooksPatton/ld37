@@ -17,7 +17,7 @@ end
 
 function Paddle:resetPaddle()
   self.width = 50
-  self.speed = 250
+  self.speed = 325
 end
 
 function Paddle:draw()

@@ -17,7 +17,7 @@ Ball.__index = Ball
 function Ball.new(paddle, board)
   local self = setmetatable({}, Ball)
 
-  self.startingSpeed = 250
+  self.startingSpeed = 325
 
   self.paddle = paddle
   self.board = board

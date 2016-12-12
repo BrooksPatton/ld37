@@ -54,7 +54,7 @@ function Welcome.new()
 
   self.begin = {
     fontSize = 24,
-    text = 'Press any key to begin'
+    text = 'Press Enter to begin'
   }
 
   self.begin.font = love.graphics.newFont(self.begin.fontSize)

@@ -14,7 +14,7 @@ function GameOver.new()
 
   self.begin = {
     fontSize = 24,
-    text = 'Press any key to play again'
+    text = 'Press Enter to play again'
   }
 
   self.begin.font = love.graphics.newFont(self.begin.fontSize)
